@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  margin-top: 10px;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.loader_container {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.7;
+  align-items: center;
+  z-index: 30;
+}
