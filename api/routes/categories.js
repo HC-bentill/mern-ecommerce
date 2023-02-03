@@ -8,12 +8,14 @@ const router = require("express").Router();
 
 // router.post("/add", verifyTokenAndAdmin, async (req, res) => {
 router.post("/add", async (req, res) => {
-  const newCategory = new Categories(req.body);
-
   try {
+    const newCategory = new Categories(req.body);
     const savedCategory = await newCategory.save();
-
-    res.status(200).json({message: "Category Added Successfully", data: savedCategory, success: true});
+    if (savedCategory) {
+      res.status(200).json({message: "Category Added Successfully", data: savedCategory, success: true});
+    } else {
+      res.status(400).json({message: "Could not add category !", data: null, success: false});
+    }
   } catch (err) {
     res.status(500).json({message: err, data: null, success: false});
   }
@@ -32,9 +34,8 @@ router.put("/:id", async (req, res) => {
     );
     if (updatedCategory) {
       res.status(200).json({message: "Category Updated Successfully", data: updatedCategory, success: true});
-    }else{
+    } else {
       res.status(200).json({message: "Category does not exist", data: null, success: false});
-
     }
   } catch (err) {
     res.status(500).json({message: err, data: null, success: false});
@@ -63,7 +64,7 @@ router.get("/:id", async (req, res) => {
     if (category) {
       res.status(200).json({message: "Category returned successfully", data: category, success: true});
     } else {
-      res.status(200).json({message: "Category does not exist", data: category, success: false});
+      res.status(200).json({message: "Category does not exist", data: null, success: false});
     }
   } catch (err) {
     res.status(500).json({message: err, data: null, success: false});

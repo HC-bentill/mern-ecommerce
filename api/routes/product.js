@@ -1,81 +1,97 @@
 const Product = require("../models/Product");
-const {
-  verifyToken,
-  verifyTokenAndAuthorization,
-  verifyTokenAndAdmin,
-} = require("./verifyToken");
-
+const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyToken");
+const mongoose = require("mongoose");
 const router = require("express").Router();
 
 //CREATE
 
-router.post("/", verifyTokenAndAdmin, async (req, res) => {
-  const newProduct = new Product(req.body);
-
+router.post("/add", async (req, res) => {
   try {
+    const newProduct = new Product(req.body);
     const savedProduct = await newProduct.save();
-    res.status(200).json(savedProduct);
+    if (savedProduct) {
+      res.status(200).json({message: "Product Added Successfully", data: savedProduct, success: true});
+    } else {
+      res.status(400).json({message: "Could not add Product !", data: null, success: false});
+    }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 //UPDATE
-router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
-      { new: true }
+      {new: true}
     );
-    res.status(200).json(updatedProduct);
+    if (updatedProduct) {
+      res.status(200).json({message: "Product Updated Successfully", data: updatedProduct, success: true});
+    } else {
+      res.status(400).json({message: "Product does not exist", data: null, success: false});
+    }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 //DELETE
-router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json("Product has been deleted...");
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (product) {
+      res.status(200).json({message: "Product has been deleted successfully", data: null, success: true});
+    } else {
+      res.status(200).json({message: "Product does not exist", data: null, success: false});
+    }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 //GET PRODUCT
-router.get("/find/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    res.status(200).json(product);
+    if (product) {
+      res.status(200).json({message: "Product returned successfully", data: product, success: true});
+    } else {
+      res.status(200).json({message: "Product does not exist", data: null, success: false});
+    }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
+//GET ALL PRODUCTS BY CATEGORY ID
+router.get("/categories/:categoryId", async (req, res) => {
+  try {
+    const products = await Product.find({
+      categories: {$in: [mongoose.Types.ObjectId(req.params.categoryId)]},
+    });
+    if (products.length > 0) {
+      res.status(200).json({message: "Products returned successfully", data: products, success: true});
+    } else {
+      res.status(200).json({message: "Product does not exist", data: null, success: false});
+    }
+  } catch (err) {
+    res.status(500).json({message: err, data: null, success: false});
+  }
+});
+
 //GET ALL PRODUCTS
 router.get("/", async (req, res) => {
-  const qNew = req.query.new;
-  const qCategory = req.query.category;
   try {
-    let products;
-
-    if (qNew) {
-      products = await Product.find().sort({ createdAt: -1 }).limit(1);
-    } else if (qCategory) {
-      products = await Product.find({
-        categories: {
-          $in: [qCategory],
-        },
-      });
+    const products = await Product.find();
+    if (products) {
+      res.status(200).json({message: "Products returned successfully", data: products, success: true});
     } else {
-      products = await Product.find();
+      res.status(200).json({message: "Product does not exist", data: null, success: false});
     }
-
-    res.status(200).json(products);
   } catch (err) {
     res.status(500).json(err);
   }
