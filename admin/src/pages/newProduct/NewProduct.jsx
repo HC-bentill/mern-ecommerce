@@ -71,7 +71,7 @@ export default function NewProduct() {
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Product</h1>
-      <form className="addProductForm">
+      <form className="addProductForm" >
         <div className="addProductItem">
           <label>Image</label>
           <input

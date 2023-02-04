@@ -1,9 +1,8 @@
 .sidebar {
-  flex: 1;
-  height: calc(100vh - 50px);
+  flex: 0.2;
+  height: 100vh;
   background-color: rgb(251, 251, 255);
   position: sticky;
-  top: 50px;
 }
 
 .sidebarWrapper {
@@ -33,12 +32,18 @@
   border-radius: 10px;
 }
 
-.sidebarListItem.active,
 .sidebarListItem:hover {
   background-color: rgb(240, 240, 255);
 }
 
-.sidebarIcon{
-    margin-right: 5px;
-    font-size: 20px !important;
+.sidebarMenu a.active {
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  background-color: rgb(240, 240, 255);
+}
+
+.sidebarIcon {
+  margin-right: 5px;
+  font-size: 20px !important;
 }

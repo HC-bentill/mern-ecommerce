@@ -2,6 +2,10 @@
     flex: 4;
 }
 
+.productList a {
+    text-decoration: none;
+}
+
 .productListItem{
     display: flex;
     align-items: center;

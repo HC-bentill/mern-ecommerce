@@ -8,6 +8,10 @@
   color: inherit;
 }
 
+.content{
+  flex: 1;
+}
+
 .loader_container {
   position: absolute;
   top: 0px;
