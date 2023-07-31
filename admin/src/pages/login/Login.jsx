@@ -79,7 +79,7 @@ const Login = () => {
               <div className="formFields">
                 <input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
               </div>
-              <button className="login_button" onClick={handleClick} style={{padding: 13, width: "100%"}}>
+              <button className="login_button" onClick={handleClick} style={{padding: 10, width: "100%"}}>
                 Login
               </button>
             </div>

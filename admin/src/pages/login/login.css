@@ -12,7 +12,6 @@ background-color: white;
 display: grid;
 place-items: center;
 padding: 50px 28px;
-border-radius: 10px;
 }
 
 .login_container .title {
@@ -27,20 +26,19 @@ border-radius: 10px;
 
 .login_button{
     background-color: black;
-    border: none;
-    border-radius: 6px;
     color: white;
     margin-top: 20px;
+    font-size: 14px;
 }
 
 .formFields > input{
  background-color: white;
  outline: none;
- border: 1px solid gray;
+ border: 1px solid lightgray;
  width: 91%;
  margin: 8px 0px;
- border-radius: 18px;
  padding: 10px;
+ font-size: 13px;
 }
 
 .formFields{

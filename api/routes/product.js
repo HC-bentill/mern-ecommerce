@@ -22,13 +22,7 @@ router.post("/add", async (req, res) => {
 //UPDATE
 router.put("/:id", async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      {new: true}
-    );
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {$set: req.body,},{new: true});
     if (updatedProduct) {
       res.status(200).json({message: "Product Updated Successfully", data: updatedProduct, success: true});
     } else {
